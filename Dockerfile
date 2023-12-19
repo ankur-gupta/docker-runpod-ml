@@ -9,6 +9,9 @@ FROM ankurio/docker-ml-base:latest
 
 USER root
 
+# Create workspace directory (default for mounting runpod volumes)
+RUN mkdir /workspace
+
 # We want to allow public key SSH authentication only
 COPY sshd_config /etc/ssh/sshd_config
 
