@@ -1,12 +1,12 @@
-# ml-pytorch-runpod
+# docker-ml-runpod
 
 This image depends on the public docker image
-[ankurio/ml-pytorch](https://hub.docker.com/repository/docker/ankurio/ml-pytorch/general)
-which is based on the code [ml-pytorch](https://github.com/ankur-gupta/ml-pytorch).
+[ankurio/docker-ml-base](https://hub.docker.com/repository/docker/ankurio/docker-ml-base/general)
+which is based on the code [docker-ml-base](https://github.com/ankur-gupta/docker-ml-base).
 
 To use this image, you need to create a new template on [RunPod](https://www.runpod.io):
   1. Allow port 22 in TCP ports
-  2. Add environment variable `ML_USER=neo`. This needs to match [ml-pytorch](https://github.com/ankur-gupta/ml-pytorch).
+  2. Add environment variable `ML_USER=neo`. This needs to match [docker-ml-base](https://github.com/ankur-gupta/docker-ml-base).
   3. Use at least 30GB of "Container Disk".
 
 ## Successful Container Logs
@@ -90,6 +90,7 @@ ssh runpod  # rsync and scp should also work nicely
 vf activate pytorch
 ipython
 ```
+
 ```python
 import torch
 if torch.cuda.is_available():
