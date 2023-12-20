@@ -47,16 +47,14 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      # Extract metadata (tags, labels) for Docker
-      # https://github.com/docker/metadata-action
+      # Extract metadata (tags, labels) for Docker (https://github.com/docker/metadata-action)
       - name: Extract Docker metadata
         id: meta
         uses: docker/metadata-action@96383f45573cb7f253c731d3b3ab81c87ef81934 # v5.0.0
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
 
-      # Build and push Docker image with Buildx (don't push on PR)
-      # https://github.com/docker/build-push-action
+      # Build but don't push Docker image with Buildx (https://github.com/docker/build-push-action)
       - name: Build (but not push) Docker image
         id: build-and-push
         uses: docker/build-push-action@0565240e2d4ab88bba5387d719585280857ece09 # v5.0.0
@@ -67,10 +65,12 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}  # From Dockerfile lines eg: `LABEL maintainer="Your Name <your.email@example.com>"`
           cache-from: type=gha
           cache-to: type=gha,mode=max
-          load: true
+          # Load the built image into Docker instead of pushing it to a registry
+          # This allows us to test it out in the next step.
+          load: true  
 
-      - name: Build the image
-        run: docker build . --tag ${{ github.event.repository.name }}:${{ github.sha }}
+      # - name: Build the image
+      #   run: docker build . --tag ${{ github.event.repository.name }}:${{ github.sha }}
 
       - name: Run the image
         run: docker run --rm ${{ github.event.repository.name }}:${{ github.sha }} pwd
