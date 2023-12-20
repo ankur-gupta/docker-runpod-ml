@@ -4,8 +4,8 @@
 # docker tag docker-ml-runpod:latest ankurio/docker-ml-runpod:latest
 # docker push ankurio/docker-ml-runpod:latest
 
-# FROM ghcr.io/ankur-gupta/docker-ml-base:main
-FROM ankurio/docker-ml-base:latest
+FROM ghcr.io/ankur-gupta/docker-ml-base:main
+# FROM ankurio/docker-ml-base:latest
 
 USER root
 
