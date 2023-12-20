@@ -67,6 +67,7 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}  # From Dockerfile lines eg: `LABEL maintainer="Your Name <your.email@example.com>"`
           cache-from: type=gha
           cache-to: type=gha,mode=max
+          load: true
 
       - name: Build the image
         run: docker build . --tag ${{ github.event.repository.name }}:${{ github.sha }}
