@@ -74,5 +74,5 @@ jobs:
           cache-to: type=gha,mode=max
 
       - name: Run command in Docker container
-        run: docker run -it --rm ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }} pwd
+        run: docker run --rm ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }} pwd
         
