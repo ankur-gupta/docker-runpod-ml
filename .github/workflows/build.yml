@@ -14,8 +14,7 @@ on:
 env:
   # Use docker.io for Docker Hub if empty
   REGISTRY: ghcr.io
-  # github.repository as <account>/<repo>
-  IMAGE_NAME: ${{ github.repository }}
+  IMAGE_NAME: ${{ github.repository }}  # <account>/<repo>
 
 jobs:
   build:
@@ -68,9 +67,6 @@ jobs:
           # Load the built image into Docker instead of pushing it to a registry
           # This allows us to test it out in the next step.
           load: true  
-
-      # - name: Build the image
-      #   run: docker build . --tag ${{ github.event.repository.name }}:${{ github.sha }}
 
       - name: Run the image
         run: docker run --rm ${{ github.event.repository.name }}:${{ github.sha }} pwd
