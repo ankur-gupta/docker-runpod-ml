@@ -67,8 +67,10 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}  # From Dockerfile lines eg: `LABEL maintainer="Your Name <your.email@example.com>"`
           cache-from: type=gha
           cache-to: type=gha,mode=max
-          outputs: 'type=registry,registry=${{ env.REGISTRY }},name=${{ env.IMAGE_NAME }}'
 
-      - name: Run command in Docker container
-        run: docker run --rm ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }} pwd
+      - name: Build the image
+        run: docker build . --tag ${{ github.event.repository.name }}:${{ github.sha }}
+
+      - name: Run the image
+        run: docker run --rm ${{ github.event.repository.name }}:${{ github.sha }} pwd
         
