@@ -1,8 +1,8 @@
 # Build:
 # docker build --platform=linux/amd64 . -t docker-ml-runpod
 # Push:
-# docker tag docker-ml-runpod:latest ankurio/docker-ml-runpod:latest
-# docker push ankurio/docker-ml-runpod:latest
+# docker tag docker-ml-runpod:latest ghcr.io/ankur-gupta/docker-ml-runpod:latest
+# docker push ghcr.io/ankur-gupta/docker-ml-runpod:latest
 
 # FROM ghcr.io/ankur-gupta/docker-ml-base:main
 FROM ankurio/docker-ml-base:latest
