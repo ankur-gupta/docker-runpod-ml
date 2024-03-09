@@ -1,12 +1,12 @@
-# docker-ml-runpod
+# docker-runpod-ml
 
 This image depends on the public docker image
-[ankurio/docker-ml-base](https://hub.docker.com/repository/docker/ankurio/docker-ml-base/general)
-which is based on the code [docker-ml-base](https://github.com/ankur-gupta/docker-ml-base).
+[ankurio/docker-base-ml](https://hub.docker.com/repository/docker/ankurio/docker-base-ml/general)
+which is based on the code [docker-base-ml](https://github.com/ankur-gupta/docker-base-ml).
 
 To use this image, you need to create a new template on [RunPod](https://www.runpod.io):
   1. Allow port 22 in TCP ports
-  2. Add environment variable `ML_USER=neo`. This needs to match [docker-ml-base](https://github.com/ankur-gupta/docker-ml-base).
+  2. Add environment variable `ML_USER=neo`. This needs to match [docker-base-ml](https://github.com/ankur-gupta/docker-base-ml).
   3. Use at least 30GB of "Container Disk".
 
 ## Successful Container Logs
