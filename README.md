@@ -1,5 +1,9 @@
 # docker-runpod-ml
 
+## Deprecation
+* [docker-ml-runpod](https://github.com/ankur-gupta/docker-runpod-ml/pkgs/container/docker-ml-runpod) is deprecated and will be removed. Please switch to [docker-runpod-ml](https://github.com/ankur-gupta/docker-runpod-ml/pkgs/container/docker-runpod-ml).
+
+## Usage
 This image depends on the public docker image
 [ankurio/docker-base-ml](https://hub.docker.com/repository/docker/ankurio/docker-base-ml/general)
 which is based on the code [docker-base-ml](https://github.com/ankur-gupta/docker-base-ml).
