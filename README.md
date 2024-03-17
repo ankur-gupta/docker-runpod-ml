@@ -7,7 +7,7 @@ which is based on the code [docker-base-ml](https://github.com/ankur-gupta/docke
 To use this image, you need to create a new template on [RunPod](https://www.runpod.io):
   1. Allow port 22 in TCP ports
   2. Add environment variable `ML_USER=neo`. This needs to match [docker-base-ml](https://github.com/ankur-gupta/docker-base-ml).
-  3. Use at least 30GB of "Container Disk".
+  3. Use at least 32GB of "Container Disk" but 64GB is recommended.
 
 ## Successful Container Logs
 ```
@@ -106,3 +106,38 @@ torch.zeros(3)  # tensor([0., 0., 0.])
 torch.zeros(3).device  # device(type='cpu')
 torch.zeros(3, device=DEVICE)  # tensor([0., 0., 0.], device='cuda:0')
 ```
+
+## Setup Tunnel to use Jupyter
+After you've setup the ssh config for `runpod` above.
+
+  1. Run jupyter on `runpod` machine
+  ```shell
+  jupyter notebook --no-browser --port=8888
+  ```
+
+  2. Setup a tunnel on local machine
+  ```shell
+  # Requires you to setup runpod entry in ~/.ssh/config
+  ssh -N -f -L localhost:12345:localhost:8888 neo@runpod
+  ```
+  Here, `12345` is the port on local machine, `8888` is the port on runpod. `-N` means do not execute a remote command; this is useful for port forwarding only. `-f` requests SSH to go to the background just before command execution. This is useful when the command runs for a long time.
+
+  Optionally, check if your local machine port `12345` is busy and who is using it.
+  ```shell
+  lsof -i :8888
+  # COMMAND   PID  USER   FD   TYPE             DEVICE SIZE/OFF NODE NAME
+# pycharm 13898 ankur  246u  IPv6 0x7ab3bc2d687986ad      0t0  TCP [::127.0.0.1]:56059->[::127.0.0.1]:ddi-tcp-1 (CLOSED)
+# pycharm 13898 ankur  300u  IPv6 0x7ab3bc2d68949ead      0t0  TCP localhost:56058->localhost:ddi-tcp-1 (ESTABLISHED)
+# pycharm 13898 ankur  302u  IPv6 0x7ab3bc2d68948ead      0t0  TCP localhost:56067->localhost:ddi-tcp-1 (ESTABLISHED)
+  ```
+
+  3. Open local machine browser to http://127.0.0.1:8888/tree?token=some-token. You can click on the link pasted by `jupyter` on the `runpod` machine.
+  4. Once you're done, save notebook via the browser.
+  5. Kill the running jupyter notebook.
+  6. Find and kill the ssh tunnel
+  ```shell
+  ps aux | grep "ssh"
+  # ankur            18424   0.0  0.0 408796560   2256   ??  Ss    1:02PM   0:00.01 ssh -N -f -L localhost:8888:localhost:8888 neo@runpod
+
+  kill 18424
+  ```
