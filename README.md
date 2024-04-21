@@ -145,3 +145,47 @@ After you've setup the ssh config for `runpod` above.
 
   kill 18424
   ```
+
+## Fix SSH Agent
+1. Ensure that SSH key is loaded on local machine
+   ```shell
+   # On local machine
+   ssh-add -l
+   # 256 SHA256:hKIro4CO+GuK2DIeqikicRZMR8ZO2CEL6BcyY5VT+uk /Users/user/.ssh/id_github_ed25519 (ED25519)  <- We want this
+   # ... other keys ...
+   ```
+   If a key is not loaded, run `ssh-add /path/to/private/key`. Ensure that you can do this on local machine.
+   ```shell
+   # On local machine
+   ssh -T git@github.com
+   # Hi ankur-gupta! You've successfully authenticated, but GitHub does not provide shell access.
+   ```
+3. Ensure that `echo "$SSH_AUTH_SOCK"` returns non-empty on remote RunPod machine
+   ```shell
+   # On remote RunPod machine
+   echo "$SSH_AUTH_SOCK"
+   # /tmp/ssh-XXXXYUE6Rs/agent.1065
+   ```
+4. Try out this command on remote RunPod machine again
+   ```shell
+   # On remote RunPod machine
+   ssh -T git@github.com
+   # Hi ankur-gupta! You've successfully authenticated, but GitHub does not provide shell access.
+   ```
+5. If the previous step fails, restart `ssh-agent` on remote RunPod machine
+    ```shell
+    # On remote RunPod machine
+    # Fish shell not bash
+    pkill -f ssh-agent; and rm -rf ~/.ssh/environment; and ssh-agent
+    # SSH_AUTH_SOCK=/tmp/ssh-XXXXXXLO2SqG/agent.1869; export SSH_AUTH_SOCK;
+    # SSH_AGENT_PID=1870; export SSH_AGENT_PID;
+    # echo Agent pid 1870;
+    ```
+6. SSH from local machine into remote RunPod machine again
+7. Try out this command on remote RunPod machine again
+   ```shell
+   # On remote RunPod machine
+   ssh -T git@github.com
+   # Hi ankur-gupta! You've successfully authenticated, but GitHub does not provide shell access.
+   ```
+   
